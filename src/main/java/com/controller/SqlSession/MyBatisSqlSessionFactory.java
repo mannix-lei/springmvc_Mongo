@@ -16,7 +16,7 @@ public class MyBatisSqlSessionFactory {
         if(sqlSessionFactory == null){
             InputStream inputStream = null;
             try{
-                inputStream = Resources.getResourceAsStream("mybatis.xml");
+                inputStream = Resources.getResourceAsStream("mongodb.xml");
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             }catch (IOException e){
                 e.printStackTrace();
