@@ -1,49 +1,52 @@
 package com.service.impl;
 
-import com.dao.UserDaoInf;
 import com.service.serviceInf.UserServiceInf;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 import com.pojo.User;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 /**
  * Created by Tellyes_worker on 2017/12/4/0004.
  */
-@Transactional
-@Service("userService")
+@Repository
 public class UserServiceImpl implements UserServiceInf {
-
-    private UserDaoInf userDao;
     @Autowired
-    public void setUserDao(UserDaoInf userDao){
-        this.userDao = userDao;
+    private MongoTemplate mongoTemplate;
+    public void delUser(String id){
+        User user = findById(id);
+        mongoTemplate.remove(user);
     }
-    @Override
-    public User getUserById(String id) {
-        return this.userDao.findUserById(id);
+    public void updateUser(User user) {
+        mongoTemplate.save(user);
     }
-    @Override
-    public List<User> findAllUser() {
-        return this.userDao.findAllUser();
+    public void addUser(User user) {
+        mongoTemplate.save(user);
     }
-
-    @Override
-    public boolean addUser(User user) {
-        return userDao.addUser(user);
+    public User findById(String id) {
+        return mongoTemplate.findById(id,User.class);
     }
-
-    @Override
-    public String login(String name){
-        return userDao.findUserByName(name);
+    public List<User> findByUserName(String name) {
+        Query query = new Query(Criteria.where("name").is(name));
+        return mongoTemplate.find(query,User.class);
     }
-
-    @Override
-    public boolean register(User user){
-        userDao.addUser(user);
-        return true;
+    public List<User> findAll() {
+        return mongoTemplate.findAll(User.class);
+    }
+    public String login(String id,String password) {
+        User user = mongoTemplate.findById(id,User.class);
+        if(user.getPassword().equals(password)){
+            return  "登陆成功";
+        }else {
+            return "登陆失败";
+        }
+    }
+    public void register(User user){
+        mongoTemplate.insert(user);
     }
 
 }

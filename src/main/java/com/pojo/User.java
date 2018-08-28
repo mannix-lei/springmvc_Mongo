@@ -1,18 +1,27 @@
 package com.pojo;
 
-import org.apache.ibatis.type.Alias;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Created by Tellyes_worker on 2017/12/4/0004.
  */
-@Alias("User")
+
+@Document(collection = "user")
 public class User {
-    public String getId() {
-        return id;
+    private String _id;
+    private String name;
+    private String password;
+    private String gender;
+    private String job;
+    private String hobby;
+    private int age;
+
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -31,7 +40,35 @@ public class User {
         this.password = password;
     }
 
-    private String id;
-    private String name;
-    private String password;
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }

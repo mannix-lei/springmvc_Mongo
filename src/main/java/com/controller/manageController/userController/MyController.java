@@ -24,7 +24,7 @@ public class MyController {
     @CrossOrigin(origins = "*",maxAge = 3600)
     @RequestMapping(value = "/Main",method = RequestMethod.GET)
     public @ResponseBody List<User> showUser(){
-        List<User> list = userService.findAllUser();
+        List<User> list = userService.findAll();
         return list;
     }
 }
